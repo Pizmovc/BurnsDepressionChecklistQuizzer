@@ -4,7 +4,7 @@
 let main argv =
     
 
-    // list of (categoryString, questionStringList)
+    // List of categories with questions
     let quiz = [
         ("Thoughts and Feelings", 
             [
