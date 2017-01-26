@@ -49,6 +49,7 @@ let main argv =
         )
     ]
 
+    // Record user input and return a number appropriate to input
     let rec rateQuestion () =
         printfn "Valid options are:"
         printfn "\t 0 = Not At All"
@@ -68,35 +69,42 @@ let main argv =
                 printfn "Invalid input\n"
                 rateQuestion()
 
-    let fancyPrint category =
-        for char in category do
+    // Prints a string with a line of '----' before and after
+    let fancyPrint (str:string) =
+        for i = 1 to str.Length + 2 do
             printf "-"
-        printfn "\n%s" category
-        for char in category do
+        printfn "\n %s" str
+        for i = 1 to str.Length + 2 do
             printf "-"
 
-
+    // Asks questions in a category and returns the total score
     let rec askQuestions list category =
         match list with
+        // Empty
         | [] -> 0
-        | questions ->
+        // Non-empty
+        | head::tail ->
             fancyPrint category
-            printfn "\n\nQuestion: %s\n" questions.Head
+            printfn "\n\nQuestion: %s\n" head
             let score = rateQuestion()
             System.Console.Clear()
-            score + askQuestions questions.Tail category
+            score + askQuestions tail category
     
-
+    // Loops over entire quiz and pops out the total score
     let rec runQuiz quiz =
         match quiz with
+            // Empty
             | [] -> 0
+            // Non-empty
             | (category, questions)::tail ->
                 System.Console.Clear()
+                // Ask all questions in category
                 let score = askQuestions questions category
                 fancyPrint category
                 printfn "\nCategory score: %d" score
                 printfn "\n\t(To continue press Enter)"
                 System.Console.ReadLine() |> ignore
+                // Sum scores from other categories
                 score + runQuiz tail
     
     // Introduction
@@ -107,10 +115,15 @@ let main argv =
     printfn "Total score is in the range of 0 - 100 inclusive.\n"
     printfn "\n\tLets begin! (press Enter)"
     System.Console.ReadLine() |> ignore
+
     // Run quiz
     let totalScore = runQuiz quiz
     System.Console.Clear()
+
+    // Show score
     sprintf "Your total score was %d." totalScore |> fancyPrint 
+
+    // Show level of depression according to Burn's Depression Checklist
     printf "\nYour depression level: "
     match totalScore with
         | a when -1 < a && a <= 5 -> printfn "You are not depressed!"
@@ -121,5 +134,5 @@ let main argv =
         | a when 75 < a && a <= 100 -> printfn "Extreme depression"
         | a -> printf "Your score fell of the chart"
     System.Console.ReadLine() |> ignore
-    //printfn "%A" argv
+
     0 // return an integer exit code
