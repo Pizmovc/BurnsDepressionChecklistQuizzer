@@ -78,28 +78,28 @@ let main argv =
             printf "-"
 
     // Asks questions in a category and returns the total score
-    let rec askQuestions list category =
-        match list with
+    let rec askQuestions category questions =
+        match questions with
         // Empty
         | [] -> 0
         // Non-empty
-        | head::tail ->
+        | first::others ->
             fancyPrint category
-            printfn "\n\nQuestion: %s\n" head
+            printfn "\n\nQuestion: %s\n" first
             let score = rateQuestion()
             System.Console.Clear()
-            score + askQuestions tail category
+            score + askQuestions category others
     
     // Loops over entire quiz and pops out the total score
-    let rec runQuiz quiz =
-        match quiz with
+    let rec runQuiz sets =
+        match sets with
             // Empty
             | [] -> 0
             // Non-empty
             | (category, questions)::tail ->
                 System.Console.Clear()
                 // Ask all questions in category
-                let score = askQuestions questions category
+                let score = askQuestions category questions
                 fancyPrint category
                 printfn "\nCategory score: %d" score
                 printfn "\n\t(To continue press Enter)"
