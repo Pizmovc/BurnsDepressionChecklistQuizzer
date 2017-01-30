@@ -127,7 +127,7 @@ let main argv =
     printf "\nYour depression level: "
     match totalScore with
         | a when -1 < a && a <= 5 -> printfn "You are not depressed!"
-        | a when 5 < a && a <= 5 -> printfn "Normal but unhappy"
+        | a when 5 < a && a <= 10 -> printfn "Normal but unhappy"
         | a when 10 < a && a <= 25 -> printfn "Mild depression"
         | a when 25 < a && a <= 50 -> printfn "Moderate depression"
         | a when 50 < a && a <= 75 -> printfn "Severe depression"
