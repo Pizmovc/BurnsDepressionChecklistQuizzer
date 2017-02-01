@@ -51,6 +51,7 @@
     <Compile Include="AssemblyInfo.fs" />
     <Compile Include="Console.fs" />
     <Compile Include="BurnsDepressionChecklist.fs" />
+    <Compile Include="TripleColumnTechnique.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>
   <PropertyGroup>

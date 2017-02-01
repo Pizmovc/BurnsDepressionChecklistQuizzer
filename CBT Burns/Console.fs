@@ -1,7 +1,7 @@
 ﻿module Console
    
    // Clear console screen
-    let Clear ()=
+    let Clear () =
         System.Console.Clear()
 
     // Prints a string with a line of '----' before and after
@@ -12,8 +12,12 @@
         for i = 1 to str.Length + 2 do
             printf "-"
 
-    let ReadKey ()=
-        System.Console.ReadKey(true)
+    let ReadKey () =
+        System.Console.ReadKey(false)
+        
 
-    let ReadLine ()=
+    let PressEnter () =
         System.Console.ReadLine() |> ignore
+
+    let ReadLine () =
+        System.Console.ReadLine()
