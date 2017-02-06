@@ -16,7 +16,10 @@
         System.Console.ReadKey(false)
         
 
-    let PressEnter () =
+    let PressEnter isReturn =
+        match isReturn with
+            | true -> printfn "\n\n\t(Press Enter to return to main menu)"
+            | false -> printfn "\n\n\t(Press Enter to continue)"
         System.Console.ReadLine() |> ignore
 
     let ReadLine () =

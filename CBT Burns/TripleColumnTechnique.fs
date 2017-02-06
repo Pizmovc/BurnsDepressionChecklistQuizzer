@@ -12,8 +12,8 @@
             match input with
                 | "" -> 
                     Clear()
-                    printfn "You will now classify each thought according to the 10 Cognitive Distortions.\n\n\t(Press Enter to continue)"
-                    PressEnter()
+                    printfn "You will now classify each thought according to the 10 Cognitive Distortions."
+                    PressEnter false
                     thoughts
                 | a -> a::(collectThoughts thoughts)
 
@@ -53,8 +53,9 @@
 
         let rec printErrors errors =
             match errors with
-                | [] -> ()
+                | [] -> printfn "\nYou found the following errors in your analysis:"
                 | head::tail ->
+                    printErrors tail
                     match head with
                         | "1" -> printfn "\tALL-OR-NOTHING THINKING"
                         | "2" -> printfn "\tOVERGENERALIZATION"
@@ -69,7 +70,6 @@
                         | "9" -> printfn "\tLABELING AND MISLABELING"
                         | "10" -> printfn "\tPERSONALIZATION"
                         | a -> printfn "Unknown: %s" a
-                    printErrors tail
                     
         let rec respondRationally thoughts =
              match thoughts with
@@ -77,34 +77,32 @@
                 | (thought, errors:string)::tail ->
                     Clear()
                     printfn "Currently responding to thought '%s'" thought
-                    printfn "\nYou found the following errors in your analysis:"
                     errors.Split(' ') 
                         |> Array.toList
+                        |> List.rev
                         |> printErrors
                     printfn "\nNow please enter your rational response!"        
                     printf "\nInput: "
                     let head = (thought, errors, ReadLine())
                     Clear()
-                    head::(respondRationally tail)
+                    (respondRationally tail)@[head]
 
-        let rec printEndResult thoughts =
+        let rec printSummary thoughts =
             match thoughts with
-                | [] -> ()    
+                | [] -> printfn "This is the summary of your thoughts, detected errors and rational responses:\n"
                 | (thought, errors:string, response)::tail ->
+                    printSummary tail
                     sprintf "Thought: '%s'" thought |> fancyPrint
                     printfn "\nErrors:"
                     errors.Split(' ') 
                         |> Array.toList
                         |> printErrors
                     printfn "\nYour response: '%s'\n" response
-                    printEndResult tail
 
         collectThoughts []
             |> identifyErrors
             |> respondRationally
-            |> printEndResult
+            |> printSummary
                     
-        printfn "\t(Press Enter to return to main menu)"
-
-        PressEnter()
+        PressEnter true
 

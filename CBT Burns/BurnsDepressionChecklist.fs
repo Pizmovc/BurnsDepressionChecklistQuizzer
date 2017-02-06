@@ -93,8 +93,7 @@ module BurnsDepressionChecklist
                     let score = askQuestions category questions
                     fancyPrint category
                     printfn "\nCategory score: %d" score
-                    printfn "\n\t(To continue press Enter)"
-                    PressEnter()
+                    PressEnter false
                     // Sum scores from other categories
                     score + runQuiz tail
     
@@ -105,8 +104,8 @@ module BurnsDepressionChecklist
         printfn "There are a total of 25 questions. For each you'll enter a number from 0 to 4 inclusive."
         printfn "That number indicates how much you have experienced each symptom during the past week, including today.\n"
         printfn "Total score is in the range of 0 - 100 inclusive.\n"
-        printfn "\n\tLets begin! (press Enter)"
-        PressEnter()
+        printfn "\n\tLets begin!"
+        PressEnter false
 
         // Run quiz
         let totalScore = runQuiz quiz
@@ -134,5 +133,4 @@ module BurnsDepressionChecklist
             | a when 75 < a && a <= 100 -> printfn "Extreme depression"
             | a -> printf "Your score of %d fell of the chart" a
 
-        printfn "\n\t(Press Enter to return to main menu)"
-        PressEnter()
+        PressEnter true
